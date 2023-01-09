@@ -1,0 +1,6 @@
+package com.example.miusic_app
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
