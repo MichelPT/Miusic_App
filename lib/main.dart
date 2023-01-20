@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:miusic_app/splash/splah_screen.dart';
+import 'package:music_app/pages/home_screen.dart';
+import 'package:music_app/pages/splash_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() {
@@ -8,29 +9,32 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ResponsiveSizer(builder: (context, orientation, screenType) {
-      return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Miusic App',
-        theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
-          primarySwatch: Colors.blue,
-        ),
-        home: const SplashScreen(),
-      );
-    });
+    return ResponsiveSizer(
+      builder: (p0, p1, p2) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          getPages: [
+            GetPage(
+              name: '/splash',
+              page: () => const SplashScreen(),
+            ),
+            GetPage(
+              name: '/home',
+              page: () => const HomeScreen(),
+            ),
+          ],
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.purple,
+          ),
+          home: const SplashScreen(),
+        );
+      },
+    );
   }
 }

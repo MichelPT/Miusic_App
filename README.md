@@ -1,7 +1,6 @@
-# miusic_app
+# music_app
 
-Flutter project to build an android application capable of writing your own lyrics and build them with your own chords.
-The application also could be used as a learning media for chord progressions, music play along, etc. 
+A new Flutter project.
 
 ## Getting Started
 
