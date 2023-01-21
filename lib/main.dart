@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_app/pages/home_screen.dart';
 import 'package:music_app/pages/splash_screen.dart';
+import 'package:music_app/pages/user_input_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() {
@@ -18,16 +19,6 @@ class MyApp extends StatelessWidget {
       builder: (p0, p1, p2) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          getPages: [
-            GetPage(
-              name: '/splash',
-              page: () => const SplashScreen(),
-            ),
-            GetPage(
-              name: '/home',
-              page: () => const HomeScreen(),
-            ),
-          ],
           title: 'Flutter Demo',
           theme: ThemeData(
             primarySwatch: Colors.purple,
