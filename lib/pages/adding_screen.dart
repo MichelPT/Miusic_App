@@ -3,6 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:music_app/models/hive_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AddSongPage extends StatelessWidget {
@@ -56,6 +57,7 @@ class AddSongPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20)))),
           onPressed: () {
             
+            Get.back();
           },
           icon: const Icon(Icons.save_as_sharp),
           label: const Text('Save')),

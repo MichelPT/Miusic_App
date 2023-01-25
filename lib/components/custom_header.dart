@@ -26,7 +26,7 @@ class CustomHeader extends StatelessWidget {
               CircleAvatar(
                 backgroundColor: Colors.purple[200],
                 radius: 24,
-                child: Text('${user[0]}'),
+                child: Text(user[0].toUpperCase()),
               ),
             ],
           ),
