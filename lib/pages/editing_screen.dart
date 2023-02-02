@@ -6,18 +6,28 @@ import 'package:hive/hive.dart';
 import 'package:music_app/models/hive_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class AddSongPage extends StatelessWidget {
-  AddSongPage({Key? key}) : super(key: key);
+class EditSongPage extends StatelessWidget {
+  final String title;
+  final String lyrics;
+  final int index;
+  EditSongPage(
+      {Key? key,
+      required this.title,
+      required this.lyrics,
+      required this.index})
+      : super(key: key);
 
   final songsListBox = Hive.box<SongsList>('songs');
 
-  add(String title, String lyrics) {
+  edit(int index, String title, String lyrics) {
     final song = SongsList(songTitle: title, songLyrics: lyrics);
-    songsListBox.add(song);
+    songsListBox.putAt(index, song);
   }
 
-  final TextEditingController _songTitleController = TextEditingController();
-  final TextEditingController _songLyricsController = TextEditingController();
+  late TextEditingController _songTitleController =
+      TextEditingController(text: title);
+  late TextEditingController _songLyricsController =
+      TextEditingController(text: lyrics);
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +36,13 @@ class AddSongPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView(shrinkWrap: true, children: [
-            Center(
+            const Center(
               child: Text(
                 'Add new song',
                 style: TextStyle(fontFamily: 'Amethyst', fontSize: 20),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             TextFormField(
@@ -44,7 +54,7 @@ class AddSongPage extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.grey[300]),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             TextFormField(
@@ -68,7 +78,8 @@ class AddSongPage extends StatelessWidget {
               Get.snackbar(
                   'Blank Field', 'Please fill in all fields before submitting');
             } else {
-              add(_songTitleController.text, _songLyricsController.text);
+              edit(
+                  index, _songTitleController.text, _songLyricsController.text);
               Get.back();
             }
           },

@@ -10,6 +10,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../components/songs_list.dart';
+
 class HomeScreen extends StatefulWidget {
   final String argument;
   const HomeScreen({super.key, required this.argument});
@@ -21,47 +23,53 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _songsBox = Hive.box('songs_list');
+  // final _songsBox = Hive.box('songs_list');
 
-  @override
-  void initState() {
-    if (_songsBox.get('songs_list') == null) {
-      _songsBox.add(['Your Song Title', 'Your Song Lyrics']);
-    }
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   if (_songsBox.get('songs_list') == null) {
+  //     final newSong = SongsList(
+  //         songTitle: 'Your Song Title', songLyrics: 'Your Song Lyrics');
+  //     _songsBox.add(newSong);
+  //   }
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             CustomHeader(user: widget.user),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: _songsBox.length,
-              itemBuilder: (context, index) {
-                return SongsCard(
-                    songTitle: _songsBox.get(index)[0],
-                    songLyrics: _songsBox.get(index)[1]);
-              },
-            )
+            Flexible(child: SongsListSection()),
+            // ValueListenableBuilder(
+            //   valueListenable: _songsBox.listenable(),
+            //   builder: (context, value, child) {
+            //     _songsBox.watch().listen((event) => print(event));
+            //     return ListView.builder(
+            //       shrinkWrap: true,
+            //       itemBuilder: (context, index) {
+            //         return Text(_songsBox.get(context).toString());//error here pls fix this ffs
+            //       },
+            //     );
+            //   },
+            // )
           ]),
         ),
       ),
-      floatingActionButton: ElevatedButton.icon(
-        onPressed: () {
-          Get.to(() => AddSongPage());
-        },
-        icon: Icon(Icons.add),
-        label: Text('Add'),
-        style: ButtonStyle(
-            minimumSize: MaterialStateProperty.all(Size.fromRadius(8.w)),
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(2.h)))),
-      ),
+      // floatingActionButton: ElevatedButton.icon(
+      //   onPressed: () {
+      //     Get.to(() => AddSongPage());
+      //   },
+      //   icon: const Icon(Icons.add),
+      //   label: const Text('Add'),
+      //   style: ButtonStyle(
+      //       minimumSize: MaterialStateProperty.all(Size.fromRadius(8.w)),
+      //       shape: MaterialStateProperty.all(RoundedRectangleBorder(
+      //           borderRadius: BorderRadius.circular(2.h)))),
+      // ),
     );
   }
 }
