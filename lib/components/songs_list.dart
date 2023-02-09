@@ -20,83 +20,94 @@ class SongsListSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text('Songs List', style: TextStyle(fontSize: 20)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Scaffold(
+      floatingActionButton: IconButton(
+        onPressed: () => Get.to(() => AddSongPage()),
+        icon: Icon(Icons.add),
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.amber)),
+      ),
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            OutlinedButton(
-              child: Text('Add'),
-              onPressed: () => Get.to(() => AddSongPage()),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                OutlinedButton(
+                  child: Text('Add'),
+                  onPressed: () => Get.to(() => AddSongPage()),
+                ),
+              ],
+            ),
+            ValueListenableBuilder(
+              valueListenable: songsListBox.listenable(),
+              builder: (context, Box<SongsList> box, _) {
+                return Flexible(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: songsListBox.length,
+                    itemBuilder: (context, index) {
+                      final songs = songsListBox.getAt(index)!;
+                      return SizedBox(
+                        height: 20.h,
+                        child: Card(
+                          elevation: 10,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: InkWell(
+                            onTap: () => Get.to(() => ReadSongPage(
+                                title: songs.songTitle,
+                                lyrics: songs.songLyrics)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Title\t\t\t: ${songs.songTitle}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    songs.songLyrics,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    OutlinedButton.icon(
+                                        style: ButtonStyle(),
+                                        onPressed: () {
+                                          Get.to(() => EditSongPage(
+                                              title: songs.songTitle,
+                                              lyrics: songs.songLyrics,
+                                              index: index));
+                                        },
+                                        icon: Icon(Icons.edit),
+                                        label: Text('Edit')),
+                                    OutlinedButton.icon(
+                                        onPressed: () {
+                                          remove(index);
+                                        },
+                                        icon: Icon(Icons.delete),
+                                        label: Text('Delete')),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
             ),
           ],
         ),
-        ValueListenableBuilder(
-          valueListenable: songsListBox.listenable(),
-          builder: (context, Box<SongsList> box, _) {
-            return Flexible(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: songsListBox.length,
-                itemBuilder: (context, index) {
-                  final songs = songsListBox.getAt(index)!;
-                  return Container(
-                    height: 20.h,
-                    child: Card(
-                      elevation: 10,
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: InkWell(
-                        onTap: () => Get.to(() => ReadSongPage(
-                            title: songs.songTitle, lyrics: songs.songLyrics)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Title\t\t\t: ${songs.songTitle}',
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Flexible(
-                              child: Text(
-                                songs.songLyrics,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                OutlinedButton.icon(
-                                    style: ButtonStyle(),
-                                    onPressed: () {
-                                      Get.to(() => EditSongPage(
-                                          title: songs.songTitle,
-                                          lyrics: songs.songLyrics,
-                                          index: index));
-                                    },
-                                    icon: Icon(Icons.edit),
-                                    label: Text('Edit')),
-                                OutlinedButton.icon(
-                                    onPressed: () {
-                                      remove(index);
-                                    },
-                                    icon: Icon(Icons.delete),
-                                    label: Text('Delete')),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            );
-          },
-        ),
-      ],
+      ),
     );
   }
 }
